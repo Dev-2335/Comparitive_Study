@@ -24,7 +24,7 @@ flask_comparative_study/
 │
 ├── templates/
 │   ├── index.html              # Page to upload CSV file
-│   ├── input_output.html       # Page to specify input and output fields
+│   ├── fields.html       # Page to specify input and output fields
 │   ├── results.html            # Page to display model comparison results
 │
 ├── uploads/                    # Directory to store uploaded CSV files
