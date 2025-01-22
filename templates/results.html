@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Comparison Results</title>
+</head>
+<body>
+    <h1>Model Comparison Results</h1>
+    <table border="1">
+        <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+        </tr>
+        {% for result in results %}
+        <tr>
+            <td>{{ result.Model }}</td>
+            <td>{{ result.Accuracy }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Go Back</a>
+</body>
+</html>
