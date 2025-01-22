@@ -19,7 +19,7 @@ This project is a Flask-based web application that enables users to conduct a co
 
 ## File Structure
 
-
+```
 flask_comparative_study/
 │
 ├── templates/
@@ -32,6 +32,7 @@ flask_comparative_study/
 │
 ├── app.py                      # Main Flask application
 ├── requirements.txt            # Python dependencies
+```
 
 
 ## Installation
