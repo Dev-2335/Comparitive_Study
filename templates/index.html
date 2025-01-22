@@ -14,7 +14,7 @@
     </header>
     <div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
         <h1 class="text-xl font-bold mb-4 text-gray-800">Upload Your Dataset</h1>
-        <!-- Error Message for File Upload -->
+        
         <p id="error-message" class="text-red-600 text-sm hidden mb-4">Please select a file before uploading.</p>
         <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showLoader(event)">
             <input type="file" name="file"
@@ -39,9 +39,9 @@
             const errorMessage = document.getElementById('error-message');
 
             if (!fileInput.files.length) {
-                // Show error message if no file is selected
+                
                 errorMessage.classList.remove('hidden');
-                return;  // Stop form submission
+                return;  
             } else {
                 errorMessage.classList.add('hidden');
             }
