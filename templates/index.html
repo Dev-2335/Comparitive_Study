@@ -1,13 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload CSV</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Upload Your Dataset</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <button type="submit">Upload</button>
-    </form>
+
+<body class="bg-gray-100">
+    <header class="bg-blue-800 text-white py-4 px-6 shadow-md">
+        <h1 class="text-2xl font-bold" style="font-family: 'Lobster';">Comparative Study</h1>
+    </header>
+    <div class="max-w-md mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
+        <h1 class="text-xl font-bold mb-4 text-gray-800">Upload Your Dataset</h1>
+        <!-- Error Message for File Upload -->
+        <p id="error-message" class="text-red-600 text-sm hidden mb-4">Please select a file before uploading.</p>
+        <form action="/upload" method="post" enctype="multipart/form-data" onsubmit="showLoader(event)">
+            <input type="file" name="file"
+                class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                id="file-input">
+            <button type="submit"
+                class="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 flex items-center justify-center">
+                <span id="upload-text">Upload</span>
+                <svg id="upload-loader" class="hidden animate-spin ml-2 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function showLoader(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('file-input');
+            const errorMessage = document.getElementById('error-message');
+
+            if (!fileInput.files.length) {
+                // Show error message if no file is selected
+                errorMessage.classList.remove('hidden');
+                return;  // Stop form submission
+            } else {
+                errorMessage.classList.add('hidden');
+            }
+
+            const button = event.target.querySelector('button');
+            const loader = document.getElementById('upload-loader');
+            const text = document.getElementById('upload-text');
+            text.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                event.target.submit();
+            }, 1000);
+        }
+    </script>
 </body>
+
 </html>

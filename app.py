@@ -73,6 +73,7 @@ def compare():
     filepath = request.form['filepath']
     input_fields = request.form.getlist('input_fields')
     output_field = request.form['output_field']
+    
 
     # Load and preprocess data
     df = pd.read_csv(filepath)

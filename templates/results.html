@@ -1,45 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Comparison Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Model Comparison Results</h1>
 
-    <h3>Evaluation Results:</h3>
-    <table border="1">
-        <tr>
-            <th>Model</th>
-            <th>Accuracy</th>
-        </tr>
-        {% for result in results %}
-            <tr>
-                <td>{{ result.Model }}</td>
-                <td>{{ result.Accuracy }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+<body class="bg-gray-100">
+    <header class="bg-blue-800 text-white py-4 px-6 shadow-md">
+        <h1 class="text-2xl font-bold" style="font-family: 'Lobster';">Comparative Study</h1>
+    </header>
 
-    <h3>Predictions:</h3>
-    <table border="1">
-        <tr>
-            <th>Model</th>
-            <th>Prediction</th>
-        </tr>
-        {% for model, prediction in predictions.items() %}
-            <tr>
-                <td>{{ model }}</td>
-                <td>{{ prediction }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg mt-3 p-6">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Model Comparison Results</h1>
 
-    <h3>Test Data:</h3>
-    <ul>
-        {% for field, value in test_data.items() %}
-            <li>{{ field }}: {{ value }}</li>
-        {% endfor %}
-    </ul>
+        <!-- Evaluation Results -->
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Evaluation Results:</h3>
+        <table class="w-full table-auto border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Model</th>
+                    <th class="border border-gray-300 px-4 py-2">Accuracy</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ result.Model }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ result.Accuracy }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
+        <!-- Predictions -->
+        <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Predictions:</h3>
+        <table class="w-full table-auto border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Model</th>
+                    <th class="border border-gray-300 px-4 py-2">Prediction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for model, prediction in predictions.items() %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ model }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ prediction }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Test Data -->
+        <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Test Data:</h3>
+        <ul class="list-disc ml-6">
+            {% for field, value in test_data.items() %}
+            <li class="text-gray-700">{{ field }}: {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
+
 </html>

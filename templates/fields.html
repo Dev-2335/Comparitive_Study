@@ -1,41 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Fields</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Select Input and Output Fields</h1>
-    <form action="/compare" method="post">
-        <input type="hidden" name="filepath" value="{{ filepath }}">
-        
-        <h3>Input Fields:</h3>
-        {% for column in columns %}
-            <label>
-                <input type="checkbox" name="input_fields" value="{{ column }}"> {{ column }}
-            </label><br>
-        {% endfor %}
-        
-        <h3>Output Field:</h3>
-        <select name="output_field">
-            {% for column in columns %}
-                <option value="{{ column }}">{{ column }}</option>
-            {% endfor %}
-        </select>
-        
-        <h3>Test Data:</h3>
-        {% for column in columns %}
-            <label>{{ column }}: 
-                {% if column_examples[column] %}
-                    <!-- Show placeholder with examples -->
-                    <input type="text" name="{{ column }}" placeholder="e.g., {{ column_examples[column]|join(', ') }}">
-                {% else %}
-                    <!-- Generic placeholder if no examples -->
-                    <input type="text" name="{{ column }}" placeholder="Enter value for {{ column }}">
-                {% endif %}
-            </label><br>
-        {% endfor %}
-        
-        <button type="submit">Compare</button>
-    </form>
+
+<body class="bg-gray-100">
+    <header class="bg-blue-800 text-white py-4 px-6 shadow-md">
+        <h1 class="text-2xl font-bold" style="font-family: 'Lobster';">Comparative Study</h1>
+    </header>
+
+    <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg mt-3 p-6">
+        <h1 class="text-2xl font-bold mb-4 text-gray-800">Select Input and Output Fields</h1>
+        <form action="/compare" method="post" id="fields-form" class="space-y-6" onsubmit="showCompareLoader(event)">
+            <input type="hidden" name="filepath" value="{{ filepath }}">
+
+            <!-- Input Fields Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Input Fields:</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    {% for column in columns %}
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" name="input_fields" value="{{ column }}"
+                            class="form-checkbox text-blue-600">
+                        <span class="text-gray-700">{{ column }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="mt-4 flex gap-4">
+                    <button type="button" id="select-all"
+                        class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700">
+                        Select All
+                    </button>
+                    <button type="button" id="deselect-all"
+                        class="px-4 py-2 bg-red-600 text-white rounded-lg shadow hover:bg-red-700">
+                        Deselect All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Field Section -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Output Field:</h3>
+                <select name="output_field"
+                    class="form-select w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    {% for column in columns %}
+                    <option value="{{ column }}">{{ column }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Test Data Section -->
+            <div id="test-data-section" class="hidden">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Test Data:</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    {% for column in columns %}
+                    <div class="hidden test-data-field" data-field="{{ column }}">
+                        <label class="block font-medium text-gray-700 mb-1">{{ column }}:</label>
+                        <input type="text" name="{{ column }}"
+                            placeholder="{% if column_examples[column] %}e.g., {{ column_examples[column]|join(', ') }}{% else %}Enter value for {{ column }}{% endif %}"
+                            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Compare Button -->
+            <button type="submit" id="compare-button"
+                class="w-full mt-6 bg-blue-600 text-white py-2 rounded-lg shadow hover:bg-blue-700 flex items-center justify-center">
+                <span id="compare-text">Compare</span>
+                <svg id="compare-loader" class="hidden animate-spin ml-2 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                </svg>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Select All Button Functionality
+        document.getElementById('select-all').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('input[name="input_fields"]');
+            checkboxes.forEach(checkbox => checkbox.checked = true);
+            updateTestData();
+        });
+
+        // Deselect All Button Functionality
+        document.getElementById('deselect-all').addEventListener('click', () => {
+            const checkboxes = document.querySelectorAll('input[name="input_fields"]');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            updateTestData();
+        });
+
+        // Update Test Data Section Based on Selected Fields
+        const checkboxes = document.querySelectorAll('input[name="input_fields"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateTestData);
+        });
+
+        function updateTestData() {
+            const selectedFields = Array.from(document.querySelectorAll('input[name="input_fields"]:checked'))
+                .map(cb => cb.value);
+            const allFields = document.querySelectorAll('.test-data-field');
+            allFields.forEach(field => {
+                field.style.display = selectedFields.includes(field.dataset.field) ? 'block' : 'none';
+            });
+
+            document.getElementById('test-data-section').style.display = selectedFields.length ? 'block' : 'none';
+        }
+
+        // Show Loader on Compare Button Click
+        function showCompareLoader(event) {
+            event.preventDefault();
+            const compareButton = document.getElementById('compare-button');
+            const loader = document.getElementById('compare-loader');
+            const text = document.getElementById('compare-text');
+
+            text.classList.add('hidden');
+            loader.classList.remove('hidden');
+
+            setTimeout(() => {
+                event.target.submit();
+            }, 1000); // Simulate a delay for loader
+        }
+    </script>
 </body>
+
 </html>

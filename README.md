@@ -10,7 +10,7 @@ This project is a Flask-based web application that allows users to perform a com
   - Logistic Regression
   - Decision Tree
   - Random Forest
-  - Gradient Boosting
+  - Gradient Boosting 
   - Support Vector Machine (SVM)
   - Naive Bayes
   - K-Nearest Neighbors (KNN)
