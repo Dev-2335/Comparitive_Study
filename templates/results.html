@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Comparison Results</title>
+    <title>Model Comparison Results</title>
 </head>
 <body>
     <h1>Model Comparison Results</h1>
+
+    <h3>Evaluation Results:</h3>
     <table border="1">
         <tr>
             <th>Model</th>
             <th>Accuracy</th>
         </tr>
         {% for result in results %}
-        <tr>
-            <td>{{ result.Model }}</td>
-            <td>{{ result.Accuracy }}</td>
-        </tr>
+            <tr>
+                <td>{{ result.Model }}</td>
+                <td>{{ result.Accuracy }}</td>
+            </tr>
         {% endfor %}
     </table>
-    <a href="/">Go Back</a>
+
+    <h3>Predictions:</h3>
+    <table border="1">
+        <tr>
+            <th>Model</th>
+            <th>Prediction</th>
+        </tr>
+        {% for model, prediction in predictions.items() %}
+            <tr>
+                <td>{{ model }}</td>
+                <td>{{ prediction }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Test Data:</h3>
+    <ul>
+        {% for field, value in test_data.items() %}
+            <li>{{ field }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+
 </body>
 </html>

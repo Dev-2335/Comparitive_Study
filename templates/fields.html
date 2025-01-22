@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Fields</title>
+</head>
+<body>
+    <h1>Select Input and Output Fields</h1>
+    <form action="/compare" method="post">
+        <input type="hidden" name="filepath" value="{{ filepath }}">
+        
+        <h3>Input Fields:</h3>
+        {% for column in columns %}
+            <label>
+                <input type="checkbox" name="input_fields" value="{{ column }}"> {{ column }}
+            </label><br>
+        {% endfor %}
+        
+        <h3>Output Field:</h3>
+        <select name="output_field">
+            {% for column in columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        
+        <h3>Test Data:</h3>
+        {% for column in columns %}
+            <label>{{ column }}: 
+                {% if column_examples[column] %}
+                    <!-- Show placeholder with examples -->
+                    <input type="text" name="{{ column }}" placeholder="e.g., {{ column_examples[column]|join(', ') }}">
+                {% else %}
+                    <!-- Generic placeholder if no examples -->
+                    <input type="text" name="{{ column }}" placeholder="Enter value for {{ column }}">
+                {% endif %}
+            </label><br>
+        {% endfor %}
+        
+        <button type="submit">Compare</button>
+    </form>
+</body>
+</html>
