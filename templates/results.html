@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Model Comparison Results</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-
 <body class="bg-gray-100">
-    <header class="bg-blue-800 text-white py-4 px-6 shadow-md">
-        <h1 class="text-2xl font-bold" style="font-family: 'Lobster';">Comparative Study</h1>
+    <header class="bg-blue-800 text-white py-4 px-6 shadow-md text-center">
+        <h1 class="text-3xl font-bold" style="font-family: 'Lobster';">Comparative Study</h1>
     </header>
 
-    <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg mt-3 p-6">
+    <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg mt-6 p-6">
         <h1 class="text-2xl font-bold mb-4 text-gray-800">Model Comparison Results</h1>
 
-        
         <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Test Data:</h3>
-        <table class="w-full table-auto border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead class="bg-blue-200">
+                <tr>
                     <th class="border border-gray-300 px-4 py-2">Field</th>
                     <th class="border border-gray-300 px-4 py-2">Value</th>
                 </tr>
             </thead>
             <tbody>
                 {% for field, value in test_data.items() %}
-                <tr>
+                <tr class="odd:bg-gray-50">
                     <td class="border border-gray-300 px-4 py-2">{{ field }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ value }}</td>
                 </tr>
@@ -35,47 +32,41 @@
             </tbody>
         </table>
 
-        
         <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Evaluation Results:</h3>
-        <table class="w-full table-auto border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead class="bg-blue-200">
+                <tr>
                     <th class="border border-gray-300 px-4 py-2">Model</th>
                     <th class="border border-gray-300 px-4 py-2">Accuracy</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results %}
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ result.Model }}</td>
+                <tr class="{% if result.Accuracy == results|map(attribute='Accuracy')|max %}bg-green-200{% else %}odd:bg-gray-50{% endif %}">
+                    <td class="border border-gray-300 px-4 py-2 font-semibold">{{ result.Model }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ result.Accuracy }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-        
         <h3 class="text-lg font-semibold text-gray-700 mt-6 mb-2">Predictions:</h3>
-        <table class="w-full table-auto border-collapse border border-gray-300">
-            <thead>
-                <tr class="bg-gray-200">
+        <table class="w-full border-collapse border border-gray-300 text-center">
+            <thead class="bg-blue-200">
+                <tr>
                     <th class="border border-gray-300 px-4 py-2">Model</th>
                     <th class="border border-gray-300 px-4 py-2">Prediction</th>
                 </tr>
             </thead>
             <tbody>
                 {% for model, prediction in predictions.items() %}
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ model }}</td>
+                <tr class="odd:bg-gray-50">
+                    <td class="border border-gray-300 px-4 py-2 font-semibold">{{ model }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ prediction }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-
-
     </div>
 </body>
-
 </html>
