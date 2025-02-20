@@ -41,7 +41,7 @@ To set up the project locally, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/flask_comparative_study.git
+   git clone https://github.com/Dev-2335/Comparitive_Study.git
    cd flask_comparative_study
    ```
 
